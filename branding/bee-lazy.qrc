@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="bee-lazy-logo.jpg">../client/images/bee-lazy-logo.jpg</file>
+    </qresource>
+</RCC>

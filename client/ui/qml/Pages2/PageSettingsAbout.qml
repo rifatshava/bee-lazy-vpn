@@ -54,7 +54,7 @@ PageType {
                 Layout.preferredWidth: 153
                 Layout.preferredHeight: 131
 
-                source: "qrc:/images/amneziaLogo.svg"
+                source: "qrc:/images/bee-lazy-logo.jpg"
                 sourceSize: Qt.size(153 * Screen.devicePixelRatio, 131 * Screen.devicePixelRatio)
                 fillMode: Image.PreserveAspectFit
             }
@@ -66,7 +66,7 @@ PageType {
                 Layout.rightMargin: 16
 
                 horizontalAlignment: Text.AlignHCenter
-                text: qsTr("Support Amnezia")
+                text: "Bee Lazy"
             }
 
             BodyTextType {

@@ -30,9 +30,9 @@
 
     <application
         android:name=".AmneziaApplication"
-        android:label="-- %%INSERT_APP_NAME%% --"
-        android:icon="@mipmap/icon"
-        android:roundIcon="@mipmap/icon_round"
+        android:label="Bee Lazy"
+        android:icon="@drawable/bee_lazy_logo"
+        android:roundIcon="@drawable/bee_lazy_logo"
         android:banner="@mipmap/ic_banner"
         android:theme="@style/NoActionBar"
         android:fullBackupContent="@xml/backup_content"
@@ -56,7 +56,7 @@
             </intent-filter>
 
             <intent-filter>
-                <action android:name="org.amnezia.vpn.IMPORT_CONFIG" />
+                <action android:name="ru.beelazy.vpn.IMPORT_CONFIG" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
@@ -209,7 +209,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="org.amnezia.vpn.qtprovider"
+            android:authorities="ru.beelazy.vpn.qtprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/qtprovider_paths" />

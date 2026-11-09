@@ -11,7 +11,7 @@ QtObject {
         readonly property color textTertiary: '#A1A1AA'
         readonly property color textQuaternary: '#86868F'
         readonly property color textInverted: '#09090B'
-        readonly property color textAccent: '#FDBA74'
+        readonly property color textAccent: '#C8E65A'
         readonly property color textInfoInverse: '#0369A1'
         readonly property color textStaticWhite: '#FFFFFF'
 
@@ -24,13 +24,13 @@ QtObject {
         readonly property color bgOverlay: '#8009090B'
         readonly property color bgStateLayer: '#14FAFAFA'
         readonly property color bgStateLayerPressed: '#1AFAFAFA'
-        readonly property color bgStateLayerAccent: '#14FDBA74'
+        readonly property color bgStateLayerAccent: '#14C8E65A'
         readonly property color bgSurfaceInverse: '#E4E4E7'
         readonly property color bgSurfaceInverseAlt: '#D4D4D8'
         readonly property color bgControlTrack: '#1F1F23'
         readonly property color bgField: '#1F1F23'
         readonly property color bgSelected: '#1F1F23'
-        readonly property color bgAccentSubtle: '#4DD97706'
+        readonly property color bgAccentSubtle: '#4D8FAE16'
         readonly property color bgStaticWhite: '#FFFFFF'
 
         readonly property color bgAction: '#E4E4E7'
@@ -42,14 +42,14 @@ QtObject {
         readonly property color borderMedium: '#52525B'
         readonly property color borderBold: '#A1A1AA'
         readonly property color borderEmphasis: '#E4E4E7'
-        readonly property color borderAccent: '#FDBA74'
+        readonly property color borderAccent: '#C8E65A'
         readonly property color borderField: '#52525B'
         readonly property color borderFocus: '#E4E4E7'
 
-        readonly property color accentLight: '#FDBA74'
-        readonly property color accentDefault: '#F59E0B'
-        readonly property color accentDark: '#D97706'
-        readonly property color accentDeep: '#78350F'
+        readonly property color accentLight: '#C8E65A'
+        readonly property color accentDefault: '#A9CC24'
+        readonly property color accentDark: '#779414'
+        readonly property color accentDeep: '#43550B'
 
         readonly property color statusDestructive: '#F87171'
         readonly property color statusWarning: '#EAB308'
@@ -68,6 +68,6 @@ QtObject {
 
         readonly property color shadowLayer1: '#26000000'
         readonly property color shadowLayer2: '#4D000000'
-        readonly property color shadowGlow: '#FBB751'
+        readonly property color shadowGlow: '#B8D842'
     }
 }

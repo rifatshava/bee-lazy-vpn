@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
+include(${CMAKE_CURRENT_LIST_DIR}/branding/bee-lazy-cache.cmake)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
