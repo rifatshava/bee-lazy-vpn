@@ -93,7 +93,7 @@ int main(int argc, char **argv)
     if (!themeObject) { std::cerr << theme.errorString().toStdString(); return 5; }
     themeObject->setParent(&view);
     QTranslator translator;
-    if (translator.load("client/translations/amneziavpn_ru.qm")) app.installTranslator(&translator);
+    if (translator.load("client/translations/amneziavpn_ru_RU.qm")) app.installTranslator(&translator);
     const QString page = argv[3];
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.resize(390, 760);

@@ -38,7 +38,7 @@ jobs:
         done
         cmake -S branding/design/preview -B /tmp/bee-preview
         cmake --build /tmp/bee-preview --parallel 2
-        "$QT_ROOT_DIR/bin/lrelease" client/translations/amneziavpn_ru.ts
+        "$QT_ROOT_DIR/bin/lrelease" client/translations/amneziavpn_ru_RU.ts
     - name: 'Render QML with sample controller data'
       env:
         QT_QPA_PLATFORM: offscreen
