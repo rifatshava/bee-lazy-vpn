@@ -5,12 +5,22 @@ on:
     branches:
       - 'bee-lazy'
   workflow_dispatch:
+    inputs:
+      platform:
+        type: choice
+        default: all
+        options:
+          - all
+          - android
+          - windows
+          - macos
 
 env:
   QT_MIRROR: https://mirrors.ocf.berkeley.edu/qt/
 
 jobs:
   Android:
+    if: github.event_name != 'workflow_dispatch' || inputs.platform == 'all' || inputs.platform == 'android'
     runs-on: ubuntu-24.04
 
     env:
@@ -82,7 +92,7 @@ jobs:
         python-version: 3.14
 
     - name: 'Install conan'
-      run: pip install "conan==2.28.0"
+      run: pip install "conan==2.28.0" ninja
 
     - name: 'Prepare signing key'
       env:
@@ -90,18 +100,9 @@ jobs:
         KEYSTORE_PASS: ${{ secrets.BEE_LAZY_ANDROID_KEYSTORE_PASS }}
       shell: bash
       run: |
-        if [[ -n "$KEYSTORE_BASE64" ]]; then
-          echo "$KEYSTORE_BASE64" | base64 --decode > android.keystore
-          echo "QT_ANDROID_KEYSTORE_STORE_PASS=$KEYSTORE_PASS" >> "$GITHUB_ENV"
-        else
-          echo "::warning::BEE_LAZY_ANDROID_KEYSTORE_BASE64 is not set, the APK is signed with a one-off key and will not update over a previous install"
-          pass=$(openssl rand -hex 16)
-          echo "::add-mask::$pass"
-          keytool -genkeypair -keystore android.keystore -storetype PKCS12 -alias beelazy \
-            -keyalg RSA -keysize 4096 -validity 10000 -dname "CN=Bee Lazy" \
-            -storepass "$pass" -keypass "$pass"
-          echo "QT_ANDROID_KEYSTORE_STORE_PASS=$pass" >> "$GITHUB_ENV"
-        fi
+        test -n "$KEYSTORE_BASE64" && test -n "$KEYSTORE_PASS"
+        echo "$KEYSTORE_BASE64" | base64 --decode > android.keystore
+        echo "QT_ANDROID_KEYSTORE_STORE_PASS=$KEYSTORE_PASS" >> "$GITHUB_ENV"
         echo "QT_ANDROID_KEYSTORE_PATH=$GITHUB_WORKSPACE/android.keystore" >> "$GITHUB_ENV"
         echo "QT_ANDROID_KEYSTORE_ALIAS=beelazy" >> "$GITHUB_ENV"
 
@@ -110,6 +111,9 @@ jobs:
         QT_INSTALL_DIR: ${{ runner.temp }}
       shell: bash
       run: |
+        export ANDROID_NDK_ROOT="$ANDROID_HOME/ndk/$NDK_VERSION"
+        export ANDROID_NDK_HOME="$ANDROID_NDK_ROOT"
+        test -f "$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake"
         OUT=deploy/artifacts
         mkdir -p $OUT
         for abi in arm64-v8a armeabi-v7a; do
@@ -127,6 +131,7 @@ jobs:
         retention-days: 30
 
   Windows:
+    if: github.event_name != 'workflow_dispatch' || inputs.platform == 'all' || inputs.platform == 'windows'
     runs-on: windows-latest
 
     env:
@@ -199,6 +204,7 @@ jobs:
         retention-days: 30
 
   MacOS:
+    if: github.event_name != 'workflow_dispatch' || inputs.platform == 'all' || inputs.platform == 'macos'
     runs-on: macos-26
 
     env:
