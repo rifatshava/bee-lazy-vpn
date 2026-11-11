@@ -17,6 +17,8 @@ import "../Components"
 PageType {
     id: root
 
+    BeeBackdrop { anchors.fill: parent }
+
     ListViewType {
         id: servers
 
@@ -26,7 +28,10 @@ PageType {
             width: servers.width
 
             title: qsTr("Servers")
+            description: qsTr("Ваши подключения")
         }
+
+        spacing: 12
 
         model: ServersModel
 
@@ -34,7 +39,7 @@ PageType {
             implicitWidth: servers.width
             implicitHeight: server.implicitHeight
 
-            ListItemType {
+            BeeCardItem {
                 id: server
 
                 anchors.left: parent.left
@@ -42,6 +47,7 @@ PageType {
                 anchors.leftMargin: 16
                 anchors.rightMargin: 16
 
+                selected: serverId === ServersUiController.defaultServerId
                 text: name
 
                 icon.source: ServersUiController.serverHasOutdatedAwgContainer(serverId) ? "qrc:/images/controls/alert-circle.svg" : ""
@@ -81,9 +87,17 @@ PageType {
             }
         }
 
-        footer: Item {
+        footer: ColumnLayout {
             width: servers.width
-            height: 16 + PageController.safeAreaBottomMargin
+            spacing: 12
+            ButtonType {
+                Layout.fillWidth: true
+                Layout.margins: 16
+                text: qsTr("Добавить подключение")
+                leftImageSource: "qrc:/images/controls/plus.svg"
+                onClicked: PageController.goToPage(PageEnum.PageSetupWizardConfigSource)
+            }
+            Item { Layout.preferredHeight: 16 + PageController.safeAreaBottomMargin }
         }
     }
 }

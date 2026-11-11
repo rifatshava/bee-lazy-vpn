@@ -10,6 +10,11 @@
         <file>Components/UpdateSupportDrawer.qml</file>
         <file>Components/PromoBanner.qml</file>
         <file>Components/ConnectButton.qml</file>
+        <file>Components/BeeBrandHeader.qml</file>
+        <file>Components/BeeBackdrop.qml</file>
+        <file>Components/BeeCardItem.qml</file>
+        <file>Components/BeeConnectionHero.qml</file>
+
         <file>Components/CountryListStickyHeader.qml</file>
         <file>Components/CountrySearchRow.qml</file>
         <file>Components/CountrySectionHeader.qml</file>

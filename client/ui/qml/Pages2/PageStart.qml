@@ -320,6 +320,25 @@ PageType {
         }
 
         TabBarButtonType {
+            id: serversTabButton
+            text: qsTr("Servers")
+            icon.source: "qrc:/images/controls/server.svg"
+            onClicked: tabBarStackView.goToTabBarPage(PageEnum.PageSettingsServersList)
+        }
+
+        TabBarButtonType {
+            id: settingsTabButton
+
+            text: qsTr("Settings")
+            icon.source: "qrc:/images/controls/settings.svg"
+            showBadge: ServersUiController.hasServersFromGatewayApi && NewsModel.hasUnread && SettingsController.isNewsNotificationsEnabled()
+
+            onClicked: {
+                tabBarStackView.goToTabBarPage(PageEnum.PageSettings)
+            }
+        }
+
+        TabBarButtonType {
             id: shareTabButton
 
             Connections {
@@ -343,27 +362,5 @@ PageType {
             }
         }
 
-        TabBarButtonType {
-            id: settingsTabButton
-
-            text: qsTr("Settings")
-            icon.source: "qrc:/images/controls/settings.svg"
-            showBadge: ServersUiController.hasServersFromGatewayApi && NewsModel.hasUnread && SettingsController.isNewsNotificationsEnabled()
-
-            onClicked: {
-                tabBarStackView.goToTabBarPage(PageEnum.PageSettings)
-            }
-        }
-
-        TabBarButtonType {
-            id: plusTabButton
-
-            text: qsTr("Add")
-            icon.source: "qrc:/images/controls/plus.svg"
-
-            onClicked: {
-                tabBarStackView.goToTabBarPage(PageEnum.PageSetupWizardConfigSource)
-            }
-        }
     }
 }

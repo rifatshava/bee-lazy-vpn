@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.impl
+import "TextTypes"
 
 import Style 1.0
 
@@ -9,10 +10,10 @@ TabButton {
 
     property bool showBadge: false
 
-    implicitWidth: 44
-    implicitHeight: 44
-    width: 44
-    height: 44
+    implicitWidth: 84
+    implicitHeight: 54
+    width: Math.min(84, Math.max(44, (parent && parent.parent ? parent.parent.width - 24 : 280) / 4))
+    height: 54
 
     hoverEnabled: true
 
@@ -24,7 +25,9 @@ TabButton {
 
     Accessible.name: root.text
 
-    background: Item {
+    background: Rectangle {
+        radius: 18
+        color: root.checked ? AmneziaStyle.color.bgAccentSubtle : AmneziaStyle.color.transparent
         FocusRingType {
             radius: 12
             visible: root.visualFocus
@@ -32,11 +35,13 @@ TabButton {
     }
 
     contentItem: Item {
-        implicitWidth: root.icon.width
-        implicitHeight: root.icon.height
+        implicitWidth: 84
+        implicitHeight: 54
 
         IconImage {
-            anchors.centerIn: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 5
 
             width: root.icon.width
             height: root.icon.height
@@ -54,6 +59,14 @@ TabButton {
                 visible: root.showBadge
                 color: AmneziaStyle.color.accentLight
             }
+        }
+        CaptionTextType {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 4
+            text: root.text
+            font.pixelSize: 10
+            color: root.checked ? AmneziaStyle.color.textAccent : AmneziaStyle.color.textSecondary
         }
     }
 

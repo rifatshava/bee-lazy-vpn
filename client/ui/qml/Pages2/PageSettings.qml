@@ -10,6 +10,7 @@ import "./"
 import "../Controls2"
 import "../Controls2/TextTypes"
 import "../Config"
+import "../Components"
 
 PageType {
     id: root
@@ -29,6 +30,8 @@ PageType {
         }
     }
 
+    BeeBackdrop { anchors.fill: parent }
+
     FlickableType {
         id: flickable
 
@@ -43,7 +46,7 @@ PageType {
             anchors.left: parent.left
             anchors.right: parent.right
 
-            spacing: 0
+            spacing: 10
 
             NavigationBarType {
                 Layout.fillWidth: true
@@ -51,7 +54,20 @@ PageType {
                 title: qsTr("Settings")
             }
 
-            ListItemType {
+            BeeCardItem {
+                Layout.fillWidth: true
+                Layout.leftMargin: 16
+                Layout.rightMargin: 16
+                text: qsTr("Светлая тема")
+                icon.source: "qrc:/images/controls/app.svg"
+                onClicked: AmneziaStyle.lightTheme = !AmneziaStyle.lightTheme
+                SwitchType {
+                    checked: AmneziaStyle.lightTheme
+                    onToggled: AmneziaStyle.lightTheme = checked
+                }
+            }
+
+            BeeCardItem {
                 Layout.fillWidth: true
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
@@ -63,7 +79,7 @@ PageType {
                 onClicked: PageController.goToPage(PageEnum.PageSettingsServersList)
             }
 
-            ListItemType {
+            BeeCardItem {
                 Layout.fillWidth: true
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
@@ -75,7 +91,7 @@ PageType {
                 onClicked: PageController.goToPage(PageEnum.PageSettingsConnection)
             }
 
-            ListItemType {
+            BeeCardItem {
                 Layout.fillWidth: true
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
@@ -87,7 +103,7 @@ PageType {
                 onClicked: PageController.goToPage(PageEnum.PageSettingsApplication)
             }
 
-            ListItemType {
+            BeeCardItem {
                 Layout.fillWidth: true
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
@@ -106,7 +122,7 @@ PageType {
                 }
             }
 
-            ListItemType {
+            BeeCardItem {
                 Layout.fillWidth: true
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
@@ -118,7 +134,7 @@ PageType {
                 onClicked: PageController.goToPage(PageEnum.PageSettingsBackup)
             }
 
-            ListItemType {
+            BeeCardItem {
                 Layout.fillWidth: true
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
@@ -130,7 +146,7 @@ PageType {
                 onClicked: PageController.goToPage(PageEnum.PageSettingsAbout)
             }
 
-            ListItemType {
+            BeeCardItem {
                 Layout.fillWidth: true
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
@@ -144,7 +160,7 @@ PageType {
                 onClicked: PageController.goToPage(PageEnum.PageDevMenu)
             }
 
-            ListItemType {
+            BeeCardItem {
                 Layout.fillWidth: true
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16

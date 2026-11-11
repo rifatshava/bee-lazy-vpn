@@ -6,9 +6,9 @@ import Style 1.0
 TabBar {
     id: root
 
-    spacing: 18
+    spacing: 8
 
-    topPadding: PageController.safeAreaBottomMargin > 0 ? 0 : 4
+    topPadding: 10
     bottomPadding: PageController.safeAreaBottomMargin > 0 ? PageController.safeAreaBottomMargin : 4
     leftPadding: 16
     rightPadding: 16
@@ -32,13 +32,16 @@ TabBar {
 
     background: Rectangle {
         color: AmneziaStyle.color.bgSurfaceAlt
+        radius: 24
+        border.width: 1
+        border.color: AmneziaStyle.color.borderSoft
 
         Rectangle {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
 
-            height: 1
+            height: 0
             color: AmneziaStyle.color.borderSoft
         }
     }

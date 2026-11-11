@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Shapes
+import QtQuick.Layouts
 
 import Style 1.0
 
@@ -38,119 +38,85 @@ Button {
         readonly property int glowMargin: 24
     }
 
-    background: Item {
-        implicitWidth: 190
-        implicitHeight: 190
+    background: Rectangle {
+        color: AmneziaStyle.color.bgSurface
+        radius: width / 2
+        border.width: 1
+        border.color: d.ringColor
 
-        Item {
+        Rectangle {
             anchors.fill: parent
-
-            opacity: 0.1
-
-            Item {
-                id: diskSource
-
-                anchors.fill: parent
-                anchors.margins: -d.glowMargin
-
-                Shape {
-                    anchors.fill: parent
-
-                    preferredRendererType: Shape.CurveRenderer
-
-                    ShapePath {
-                        fillColor: AmneziaStyle.color.transparent
-                        strokeColor: d.ringColor
-                        strokeWidth: 1
-
-                        PathAngleArc {
-                            centerX: diskSource.width / 2
-                            centerY: diskSource.height / 2
-                            radiusX: d.ringRadius
-                            radiusY: d.ringRadius
-                            startAngle: 0
-                            sweepAngle: 360
-                        }
-                    }
-                }
-            }
-
-            ShadowType {
-                anchors.fill: diskSource
-                z: -1
-
-                source: diskSource
-                color: AmneziaStyle.color.shadowGlow
-                blur: 6
-            }
+            anchors.margins: 9
+            radius: width / 2
+            color: AmneziaStyle.color.transparent
+            border.width: 1
+            border.color: AmneziaStyle.color.borderAccent
+            opacity: root.connected || root.inProgress ? 0.75 : 0.25
         }
-
-        Item {
+        Rectangle {
             anchors.fill: parent
-
-            RingGlowType {
-                anchors.fill: parent
-                anchors.margins: -d.glowMargin
-
-                color: d.ringColor
-                radius: d.ringRadius
-                startAngle: 100
-                sweepAngle: root.inProgress ? 160 : 360
+            anchors.margins: 21
+            radius: width / 2
+            border.width: 2
+            border.color: root.connected ? AmneziaStyle.color.accentLight : AmneziaStyle.color.borderMedium
+            gradient: Gradient {
+                GradientStop { position: 0; color: root.connected ? AmneziaStyle.color.accentLight : AmneziaStyle.color.bgPanel }
+                GradientStop { position: 0.6; color: root.connected ? AmneziaStyle.color.accentDefault : AmneziaStyle.color.bgSurfaceAlt }
+                GradientStop { position: 1; color: root.connected ? AmneziaStyle.color.accentDeep : AmneziaStyle.color.bgBase }
             }
-
-            Shape {
-                id: ringSource
-
-                anchors.fill: parent
-                anchors.margins: -d.glowMargin
-
-                preferredRendererType: Shape.CurveRenderer
-
-                ShapePath {
-                    fillColor: AmneziaStyle.color.transparent
-                    strokeColor: d.ringColor
-                    strokeWidth: 2
-                    capStyle: ShapePath.RoundCap
-
-                    PathAngleArc {
-                        centerX: ringSource.width / 2
-                        centerY: ringSource.height / 2
-                        radiusX: d.ringRadius
-                        radiusY: d.ringRadius
-                        startAngle: 100
-                        sweepAngle: root.inProgress ? 160 : 360
-                    }
-                }
-            }
-
+            opacity: root.down ? 0.75 : 1
+        }
+        RingGlowType {
+            anchors.fill: parent
+            anchors.margins: -d.glowMargin
+            color: d.ringColor
+            radius: d.ringRadius
+            startAngle: 100
+            sweepAngle: 140
+            visible: root.inProgress
             RotationAnimator on rotation {
-                running: root.inProgress
+                running: root.inProgress && root.visible
                 from: 0
                 to: 360
                 loops: Animation.Infinite
-                duration: 1000
+                duration: 1800
             }
         }
-
         FocusRingType {
             radius: root.width / 2
             visible: root.visualFocus
         }
     }
 
-    contentItem: ButtonTextType {
-        text: root.text
+    contentItem: Item {
+        ColumnLayout {
+            anchors.centerIn: parent
+            width: parent.width - 48
+            spacing: 6
+            Image {
+                Layout.alignment: Qt.AlignHCenter
+                Layout.preferredWidth: root.width * 0.3
+                Layout.preferredHeight: root.width * 0.3
+                source: "qrc:/images/bee-lazy-logo.jpg"
+                fillMode: Image.PreserveAspectFit
+                mipmap: true
+            }
+            ButtonTextType {
+                Layout.fillWidth: true
+                text: root.text
 
-        color: root.connected && !root.inProgress ? AmneziaStyle.color.textAccent : AmneziaStyle.color.textPrimary
-        lineHeight: 30 + LanguageUiController.getLineHeightAppend()
-        font.pixelSize: 20
-        font.weight: 700
+                color: root.connected && !root.inProgress ? AmneziaStyle.color.textInverted : AmneziaStyle.color.textPrimary
+                lineHeight: 30 + LanguageUiController.getLineHeightAppend()
+                font.pixelSize: root.width < 190 ? 13 : 16
+                font.weight: 700
 
-        leftPadding: 16
-        rightPadding: 16
+                leftPadding: 16
+                rightPadding: 16
 
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
     }
 
     HoverHandler {

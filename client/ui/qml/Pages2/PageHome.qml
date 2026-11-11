@@ -98,6 +98,8 @@ PageType {
         }
     }
 
+    BeeBackdrop { anchors.fill: parent }
+
     Item {
         anchors.fill: parent
         anchors.bottomMargin: collapsedBar.height
@@ -146,16 +148,12 @@ PageType {
 
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                Layout.minimumHeight: 140
+                Layout.minimumHeight: 260
                 Layout.topMargin: 16
-                Layout.bottomMargin: 28
+                Layout.bottomMargin: 16
 
-                ConnectButton {
-                    id: connectButton
-
-                    anchors.centerIn: parent
-                    width: Math.min(implicitWidth, parent.width, parent.height)
-                    height: width
+                BeeConnectionHero {
+                    anchors.fill: parent
                 }
             }
 

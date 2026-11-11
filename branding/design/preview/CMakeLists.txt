@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.25)
+project(BeeLazyPreview LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_AUTORCC ON)
+find_package(Qt6 REQUIRED COMPONENTS Quick QuickControls2)
+add_executable(bee-preview main.cpp ../../../client/ui/qml/qml.qrc ../../../client/images/images.qrc ../../bee-lazy.qrc)
+target_link_libraries(bee-preview PRIVATE Qt6::Quick Qt6::QuickControls2)

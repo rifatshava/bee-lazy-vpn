@@ -19,7 +19,48 @@ env:
   QT_MIRROR: https://mirrors.ocf.berkeley.edu/qt/
 
 jobs:
+  QmlCheck:
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jurplel/install-qt-action@v4.3.1
+      with:
+        version: '6.10.3'
+        host: linux
+        target: desktop
+        arch: linux_gcc_64
+        modules: qtshadertools
+        extra: '--base https://mirrors.ocf.berkeley.edu/qt/'
+    - name: 'Parse changed QML and build preview'
+      run: |
+        for file in client/ui/qml/Components/Bee*.qml client/ui/qml/Components/ConnectButton.qml client/ui/qml/Controls2/TabBar*Type.qml client/ui/qml/Modules/Style/AmneziaStyle.qml client/ui/qml/Pages2/Page{Home,Settings,SettingsServersList,Start}.qml; do
+          "$QT_ROOT_DIR/bin/qmlformat" "$file" > /dev/null
+        done
+        cmake -S branding/design/preview -B /tmp/bee-preview
+        cmake --build /tmp/bee-preview --parallel 2
+        "$QT_ROOT_DIR/bin/lrelease" client/translations/amneziavpn_ru.ts
+    - name: 'Render QML with sample controller data'
+      env:
+        QT_QPA_PLATFORM: offscreen
+        QT_QUICK_BACKEND: software
+      run: |
+        mkdir -p preview-output
+        for theme in dark light; do
+          for state in connected disconnected connecting; do
+            /tmp/bee-preview/bee-preview "$state" "$theme" home "preview-output/home-$theme-$state.png"
+          done
+          for page in PageSettings PageSettingsServersList; do
+            /tmp/bee-preview/bee-preview disconnected "$theme" "$page" "preview-output/$page-$theme.png"
+          done
+        done
+    - uses: actions/upload-artifact@v7
+      if: always()
+      with:
+        name: BeeLazy-qml-preview
+        path: preview-output/
+
   Android:
+    needs: QmlCheck
     if: github.event_name != 'workflow_dispatch' || inputs.platform == 'all' || inputs.platform == 'android'
     runs-on: ubuntu-24.04
 
@@ -131,6 +172,7 @@ jobs:
         retention-days: 30
 
   Windows:
+    needs: QmlCheck
     if: github.event_name != 'workflow_dispatch' || inputs.platform == 'all' || inputs.platform == 'windows'
     runs-on: windows-latest
 
@@ -204,6 +246,7 @@ jobs:
         retention-days: 30
 
   MacOS:
+    needs: QmlCheck
     if: github.event_name != 'workflow_dispatch' || inputs.platform == 'all' || inputs.platform == 'macos'
     runs-on: macos-26
 
