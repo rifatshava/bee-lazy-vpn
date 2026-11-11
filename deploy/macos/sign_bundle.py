@@ -15,8 +15,9 @@ def sign_bundle(bundle):
         if path.is_symlink() or not path.is_file():
             continue
         with path.open("rb") as stream:
-            if stream.read(4) in magics:
-                files.append(path)
+            if stream.read(4) in magics or path.parent == bundle / "Contents/MacOS":
+                if path != bundle / "Contents/MacOS/AmneziaVPN":
+                    files.append(path)
     for path in sorted(files, key=lambda item: len(item.parts), reverse=True):
         run("codesign", "--force", "--sign", "-", "--timestamp=none", str(path))
     containers = [path for path in bundle.rglob("*") if path.is_dir() and not path.is_symlink() and path.suffix in {".framework", ".app", ".xpc"}]
