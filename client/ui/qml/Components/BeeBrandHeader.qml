@@ -8,7 +8,7 @@ RowLayout {
     Image {
         Layout.preferredWidth: 34
         Layout.preferredHeight: 34
-        source: "qrc:/images/bee-lazy-logo.jpg"
+        source: "qrc:/images/bee-lazy-mark.png"
         fillMode: Image.PreserveAspectFit
         mipmap: true
     }

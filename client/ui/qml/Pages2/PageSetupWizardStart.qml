@@ -32,7 +32,7 @@ PageType {
             width: 153
             height: 131
 
-            source: "qrc:/images/bee-lazy-logo.jpg"
+            source: "qrc:/images/bee-lazy-mark.png"
             sourceSize: Qt.size(153 * Screen.devicePixelRatio, 131 * Screen.devicePixelRatio)
             fillMode: Image.PreserveAspectFit
         }

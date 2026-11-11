@@ -1,10 +1,13 @@
 #include <QGuiApplication>
 #include <QQmlContext>
+#include <QQmlEngine>
 #include <QQmlComponent>
 #include <QQuickView>
 #include <QTimer>
 #include <QDir>
 #include <QTranslator>
+#include <QFontDatabase>
+#include <QQmlError>
 #include <iostream>
 
 int main(int argc, char **argv)
@@ -14,6 +17,16 @@ int main(int argc, char **argv)
     app.setApplicationName("BeeLazyPreview");
     if (argc != 5) return 2;
     QQuickView view;
+    QFontDatabase::addApplicationFont(":/fonts/pt-root-ui_vf.ttf");
+    QObject::connect(view.engine(), &QQmlEngine::warnings, [&](const QList<QQmlError> &warnings) {
+        for (const auto &warning : warnings) {
+            const auto text = warning.toString();
+            if (text.contains("ReferenceError") || text.contains("TypeError") || text.contains("Unable to assign") || text.contains("Binding loop")) {
+                std::cerr << text.toStdString();
+                std::exit(9);
+            }
+        }
+    });
     view.engine()->addImportPath("qrc:/ui/qml/Modules");
     for (const auto *module : {"PageEnum", "ContainerProps"}) qmlRegisterModule(module, 1, 0);
     qmlRegisterModule("SortFilterProxyModel", 0, 2);
@@ -85,8 +98,8 @@ int main(int argc, char **argv)
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.resize(390, 760);
     if (page == "home") {
-        QQmlComponent component(view.engine());
-        component.setData(R"(import QtQuick
+        auto *component = new QQmlComponent(view.engine(), &view);
+        component->setData(R"(import QtQuick
             import QtQuick.Layouts
             import Style 1.0
             import "qrc:/ui/qml/Components"
@@ -106,9 +119,9 @@ int main(int argc, char **argv)
                     }
                 }
             })", QUrl());
-        auto *root = component.create();
-        if (!root) { std::cerr << component.errorString().toStdString(); return 6; }
-        view.setContent(QUrl(), &component, root);
+        auto *root = component->create();
+        if (!root) { std::cerr << component->errorString().toStdString(); return 6; }
+        view.setContent(QUrl(), component, root);
     } else {
         view.setSource(QUrl("qrc:/ui/qml/Pages2/" + page + ".qml"));
         if (view.status() == QQuickView::Error) return 7;

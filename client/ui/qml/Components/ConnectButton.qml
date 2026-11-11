@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.impl
 import QtQuick.Layouts
 
 import Style 1.0
@@ -93,13 +94,13 @@ Button {
             anchors.centerIn: parent
             width: parent.width - 48
             spacing: 6
-            Image {
+            IconImage {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: root.width * 0.3
                 Layout.preferredHeight: root.width * 0.3
-                source: "qrc:/images/bee-lazy-logo.jpg"
+                source: "qrc:/images/bee-lazy-mark.png"
                 fillMode: Image.PreserveAspectFit
-                mipmap: true
+                color: root.connected ? AmneziaStyle.color.textStaticWhite : AmneziaStyle.color.accentLight
             }
             ButtonTextType {
                 Layout.fillWidth: true

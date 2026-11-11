@@ -21,7 +21,7 @@ TabButton {
 
     icon.width: 24
     icon.height: 24
-    icon.color: root.checked ? AmneziaStyle.color.accentLight : AmneziaStyle.color.iconDefault
+    icon.color: root.checked ? AmneziaStyle.color.textAccent : AmneziaStyle.color.iconDefault
 
     Accessible.name: root.text
 
