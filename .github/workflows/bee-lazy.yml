@@ -254,5 +254,5 @@ jobs:
       uses: actions/upload-artifact@v7
       with:
         name: BeeLazy-macos
-        path: deploy/build/BeeLazy_*_macos_x64.pkg
+        path: deploy/build/BeeLazy_*_macos_universal.pkg
         retention-days: 30
