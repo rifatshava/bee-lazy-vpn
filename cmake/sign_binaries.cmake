@@ -42,7 +42,16 @@ if(APPLE)
 
     list(APPEND files "${frameworks}" "${dylibs}" "${other_execs}" "${service_exec}" "${client_exec}" "${bundle}")
 
-    if (files AND CODESIGN_SIGNATURE)
+    if (files AND (NOT CODESIGN_SIGNATURE OR CODESIGN_SIGNATURE STREQUAL "-"))
+        find_program(PYTHON_COMMAND NAMES python3 REQUIRED)
+        execute_process(
+            COMMAND "${PYTHON_COMMAND}" "${CMAKE_CURRENT_LIST_DIR}/../deploy/macos/sign_bundle.py" "${bundle}"
+            RESULT_VARIABLE result
+        )
+        if(NOT result EQUAL 0)
+            message(FATAL_ERROR "Ad-hoc signing or verification failed")
+        endif()
+    elseif (files AND CODESIGN_SIGNATURE)
         include(${CMAKE_CURRENT_LIST_DIR}/util/codesign.cmake)
         codesign_sign_files("${files}" "${CODESIGN_SIGNATURE}" "${CODESIGN_KEYCHAIN}")
     endif()

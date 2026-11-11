@@ -297,6 +297,10 @@ jobs:
         trap 'find deploy/build/_CPack_Packages -name "ProductBuildOutput.log" -exec tail -n 100 {} \;' ERR
         deploy/build.sh --generator Ninja --installer all
 
+    - name: 'Verify packaged signatures and application startup'
+      run: |
+        python3 deploy/macos/check_package.py deploy/build/BeeLazy_*_macos_universal.pkg --output macos-startup --launch
+
     - name: 'Upload installer'
       uses: actions/upload-artifact@v7
       with:

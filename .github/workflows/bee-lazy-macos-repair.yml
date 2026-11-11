@@ -1,0 +1,32 @@
+name: Bee Lazy macOS signature repair
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  Repair:
+    runs-on: macos-26
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        name: BeeLazy-macos
+        run-id: 42961541236
+        github-token: ${{ github.token }}
+        path: original
+    - name: Verify original bytes
+      run: |
+        echo "eb97837d6fbe524442b885b40523ce8a9a556123e323d549edd73e5b5cfb2994  original/BeeLazy_5.1.0.7_macos_universal.pkg" | shasum -a 256 -c -
+    - name: Repair signatures and rebuild package
+      run: |
+        python3 deploy/macos/repair_package.py original/BeeLazy_5.1.0.7_macos_universal.pkg repair-output/BeeLazy_5.1.0.7_macos_universal_macfix1.pkg
+    - name: Verify final package and launch application
+      run: |
+        python3 deploy/macos/check_package.py repair-output/BeeLazy_5.1.0.7_macos_universal_macfix1.pkg --output repair-output --launch
+    - uses: actions/upload-artifact@v7
+      if: always()
+      with:
+        name: BeeLazy-macos-macfix1
+        path: repair-output/
+        retention-days: 30
