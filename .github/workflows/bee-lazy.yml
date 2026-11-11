@@ -45,14 +45,16 @@ jobs:
         QT_QUICK_BACKEND: software
       run: |
         mkdir -p preview-output
+        result=0
         for theme in dark light; do
           for state in connected disconnected connecting; do
-            /tmp/bee-preview/bee-preview "$state" "$theme" home "preview-output/home-$theme-$state.png"
+            /tmp/bee-preview/bee-preview "$state" "$theme" home "preview-output/home-$theme-$state.png" || result=1
           done
           for page in PageSettings PageSettingsServersList; do
-            /tmp/bee-preview/bee-preview disconnected "$theme" "$page" "preview-output/$page-$theme.png"
+            /tmp/bee-preview/bee-preview disconnected "$theme" "$page" "preview-output/$page-$theme.png" || result=1
           done
         done
+        exit "$result"
     - uses: actions/upload-artifact@v7
       if: always()
       with:

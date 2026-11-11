@@ -12,7 +12,7 @@ TabButton {
 
     implicitWidth: 84
     implicitHeight: 54
-    width: Math.min(84, Math.max(44, (parent && parent.parent ? parent.parent.width - 24 : 280) / 4))
+    width: TabBar.tabBar ? Math.min(84, (TabBar.tabBar.availableWidth - TabBar.tabBar.spacing * (TabBar.tabBar.count - 1)) / Math.max(1, TabBar.tabBar.count)) : 84
     height: 54
 
     hoverEnabled: true

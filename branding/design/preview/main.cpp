@@ -18,12 +18,13 @@ int main(int argc, char **argv)
     if (argc != 5) return 2;
     QQuickView view;
     QFontDatabase::addApplicationFont(":/fonts/pt-root-ui_vf.ttf");
+    bool hasQmlErrors = false;
     QObject::connect(view.engine(), &QQmlEngine::warnings, [&](const QList<QQmlError> &warnings) {
         for (const auto &warning : warnings) {
             const auto text = warning.toString();
             if (text.contains("ReferenceError") || text.contains("TypeError") || text.contains("Unable to assign") || text.contains("Binding loop")) {
                 std::cerr << text.toStdString();
-                std::exit(9);
+                hasQmlErrors = true;
             }
         }
     });
@@ -129,7 +130,7 @@ int main(int argc, char **argv)
     view.show();
     QTimer::singleShot(1500, [&]() {
         const auto picture = view.grabWindow();
-        app.exit(picture.save(argv[4]) ? 0 : 8);
+        app.exit(!picture.save(argv[4]) ? 8 : hasQmlErrors ? 9 : 0);
     });
     return app.exec();
 }
