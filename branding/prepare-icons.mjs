@@ -7,7 +7,7 @@ const brandingDir = dirname(fileURLToPath(import.meta.url))
 const projectDir = resolve(brandingDir, '..')
 const source = join(projectDir, 'client/images/bee-lazy-logo.jpg')
 const png = join(brandingDir, 'bee-lazy-icon.png')
-const iconBundle = join(brandingDir, 'BeeLazyAppIcon.icon')
+const iconBundle = join(brandingDir, 'AppIcon.icon')
 const iconAssets = join(iconBundle, 'Assets')
 
 execFileSync('ffmpeg', [
