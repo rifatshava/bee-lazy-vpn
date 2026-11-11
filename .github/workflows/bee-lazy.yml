@@ -248,7 +248,9 @@ jobs:
       env:
         QT_INSTALL_DIR: ${{ runner.temp }}
       shell: bash
-      run: deploy/build.sh --generator Ninja --installer all
+      run: |
+        trap 'find deploy/build/_CPack_Packages -name "ProductBuildOutput.log" -exec tail -n 100 {} \;' ERR
+        deploy/build.sh --generator Ninja --installer all
 
     - name: 'Upload installer'
       uses: actions/upload-artifact@v7
