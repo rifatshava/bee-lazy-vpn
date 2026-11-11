@@ -25,7 +25,7 @@ def sign_bundle(bundle):
         run("codesign", "--force", "--sign", "-", "--timestamp=none", str(path))
     run("codesign", "--force", "--sign", "-", "--timestamp=none", str(bundle))
     run("codesign", "--verify", "--all-architectures", "--deep", "--strict", "--verbose=2", str(bundle))
-    print("Ad-hoc signature verified:", bundle.name, len(files), "Mach-O files", flush=True)
+    print("Ad-hoc signature verified:", bundle.name, len(files), "files", flush=True)
 
 
 if __name__ == "__main__":
