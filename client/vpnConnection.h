@@ -44,7 +44,7 @@ public:
     void addSitesRoutes(const QString &gw, amnezia::RouteMode mode);
 
 #ifdef Q_OS_ANDROID
-    void restoreConnection();
+    void restoreConnection(Vpn::ConnectionState state);
 #endif
 
 public slots:

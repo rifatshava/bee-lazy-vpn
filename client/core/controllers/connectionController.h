@@ -41,7 +41,7 @@ public:
     void closeConnection();
 
 #ifdef Q_OS_ANDROID
-    void restoreConnection();
+    void restoreConnection(Vpn::ConnectionState state);
 #endif
 
     void onKillSwitchModeChanged(bool enabled);
@@ -70,7 +70,7 @@ signals:
     void killSwitchModeChangedRequested(bool enabled);
 
 #ifdef Q_OS_ANDROID
-    void restoreConnectionRequested();
+    void restoreConnectionRequested(Vpn::ConnectionState state);
 #endif
 
 private:

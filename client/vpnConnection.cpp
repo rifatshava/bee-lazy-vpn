@@ -524,13 +524,18 @@ void VpnConnection::appendSplitTunnelingConfig()
 }
 
 #ifdef Q_OS_ANDROID
-void VpnConnection::restoreConnection()
+void VpnConnection::restoreConnection(Vpn::ConnectionState state)
 {
-    createAndroidConnections();
+    if (m_vpnProtocol.isNull()) {
+        createAndroidConnections();
+        m_vpnProtocol.reset(androidVpnProtocol);
+        createProtocolConnections();
+    }
 
-    m_vpnProtocol.reset(androidVpnProtocol);
-
-    createProtocolConnections();
+    m_vpnProtocol->setConnectionState(state);
+    if (m_connectionState != state) {
+        setConnectionState(state);
+    }
 }
 
 void VpnConnection::createAndroidConnections()

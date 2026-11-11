@@ -27,8 +27,8 @@ AndroidController::AndroidController() : QObject()
                 if (isWaitingStatus) {
                     qDebug() << "Initialization by service status";
                     isWaitingStatus = false;
-                    emit initConnectionState(convertState(state));
                 }
+                emit initConnectionState(convertState(state));
             },
             Qt::QueuedConnection);
 

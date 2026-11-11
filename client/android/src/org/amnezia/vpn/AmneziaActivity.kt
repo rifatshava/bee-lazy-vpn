@@ -274,6 +274,8 @@ class AmneziaActivity : QtActivity() {
             vpnProto?.let { proto ->
                 if (AmneziaVpnService.isRunning(applicationContext, proto.processName)) {
                     doBindService()
+                } else {
+                    QtAndroidController.onServiceDisconnected()
                 }
             }
         }
@@ -287,10 +289,6 @@ class AmneziaActivity : QtActivity() {
         openFileDeliveryScheduled = false
         Log.d(TAG, "Stop Amnezia activity")
         doUnbindService()
-        mainScope.launch {
-            qtInitialized.await()
-            QtAndroidController.onServiceDisconnected()
-        }
         super.onStop()
     }
 
@@ -533,12 +531,10 @@ class AmneziaActivity : QtActivity() {
      */
     @MainThread
     private fun doBindService() {
+        if (isInBoundState) return
         Log.d(TAG, "Bind service")
         vpnProto?.let { proto ->
-            Intent(this, proto.serviceClass).also {
-                bindService(it, serviceConnection, BIND_ABOVE_CLIENT and BIND_AUTO_CREATE)
-            }
-            isInBoundState = true
+            isInBoundState = bindService(Intent(this, proto.serviceClass), serviceConnection, BIND_ABOVE_CLIENT)
         }
     }
 

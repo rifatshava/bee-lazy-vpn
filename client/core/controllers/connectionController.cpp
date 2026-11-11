@@ -233,10 +233,10 @@ void ConnectionController::closeConnection()
 }
 
 #ifdef Q_OS_ANDROID
-void ConnectionController::restoreConnection()
+void ConnectionController::restoreConnection(Vpn::ConnectionState state)
 {
     if (m_vpnConnection) {
-        emit restoreConnectionRequested();
+        emit restoreConnectionRequested(state);
     }
 }
 #endif
