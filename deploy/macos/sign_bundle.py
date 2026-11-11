@@ -15,7 +15,7 @@ def sign_bundle(bundle):
         if path.is_symlink() or not path.is_file():
             continue
         with path.open("rb") as stream:
-            if stream.read(4) in magics or path.parent == bundle / "Contents/MacOS":
+            if stream.read(4) in magics or bundle / "Contents/MacOS" in path.parents:
                 if path != bundle / "Contents/MacOS/AmneziaVPN":
                     files.append(path)
     for path in sorted(files, key=lambda item: len(item.parts), reverse=True):
