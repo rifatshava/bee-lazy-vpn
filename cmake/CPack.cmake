@@ -1,4 +1,5 @@
 set(CPACK_PACKAGE_VENDOR            "Bee Lazy")
+set(CPACK_PACKAGE_NAME              "Bee Lazy")
 set(CPACK_PACKAGE_VERSION           ${AMNEZIAVPN_VERSION})
 if(WIN32)
     set(CPACK_PACKAGE_FILE_NAME "BeeLazy_${AMNEZIAVPN_VERSION}_windows_x64")
@@ -8,7 +9,7 @@ elseif(LINUX AND NOT ANDROID)
     set(CPACK_PACKAGE_FILE_NAME "BeeLazy_${AMNEZIAVPN_VERSION}_linux_x64")
 endif()
 set(CPACK_PACKAGE_INSTALL_DIRECTORY AmneziaVPN)
-set(CPACK_PACKAGE_EXECUTABLES       AmneziaVPN AmneziaVPN)
+set(CPACK_PACKAGE_EXECUTABLES       AmneziaVPN "Bee Lazy")
 set(CPACK_PRE_BUILD_SCRIPTS         ${CMAKE_CURRENT_LIST_DIR}/sign_binaries.cmake)
 set(CPACK_POST_BUILD_SCRIPTS        ${CMAKE_CURRENT_LIST_DIR}/sign_packages.cmake)
 set(CPACK_PROJECT_CONFIG_FILE       ${CMAKE_CURRENT_LIST_DIR}/CPackOptions.cmake)
@@ -94,6 +95,7 @@ endif()
 
 include(CPackIFW)
 cpack_ifw_configure_component(AmneziaVPN
+    DISPLAY_NAME "Bee Lazy"
     VERSION ${AMNEZIAVPN_VERSION}
     RELEASE_DATE ${RELEASE_DATE}
     REQUIRES_ADMIN_RIGHTS
@@ -103,7 +105,7 @@ cpack_ifw_configure_component(AmneziaVPN
 
 include(CPack)
 cpack_add_component(Uninstall
-    DISPLAY_NAME "Uninstall AmneziaVPN"
+    DISPLAY_NAME "Uninstall Bee Lazy"
     REQUIRES_ADMIN_RIGHTS
     DISABLED
 )
